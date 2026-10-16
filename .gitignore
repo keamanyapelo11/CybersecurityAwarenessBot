@@ -1,0 +1,29 @@
+# Visual Studio
+.vs/
+*.user
+*.suo
+
+# Build output
+bin/
+obj/
+[Dd]ebug/
+[Rr]elease/
+
+# NuGet
+*.nupkg
+packages/
+
+# Backup / archive files
+*.zip
+*.rar
+*.7z
+
+# OS
+.DS_Store
+Thumbs.db
+
+# VS Code
+.vscode/
+# Part 1 console project (embedded git repo — keeping local only)
+ConsoleApp1/
+ConsoleApp1_git_backup/
