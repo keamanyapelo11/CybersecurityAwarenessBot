@@ -39,3 +39,34 @@ CybersecurityAwarenessBot/
 │ ├── ActivityLog.cs
 │ └── QuizManager.cs
 └── ConsoleApp1/ # Part 1 console (reference)
+Database Setup (MySQL)
+Ensure MySQL Server and MySQL Workbench are installed.
+
+Open MySQL Workbench and run the following SQL script to create the database:
+
+sql
+CREATE DATABASE IF NOT EXISTS CyberBotDB;
+USE CyberBotDB;
+
+CREATE TABLE IF NOT EXISTS Tasks (
+    Id INT AUTO_INCREMENT PRIMARY KEY,
+    Title VARCHAR(255) NOT NULL,
+    Description TEXT,
+    ReminderDate DATETIME NULL,
+    IsCompleted BOOLEAN DEFAULT FALSE
+);
+Open MainWindow.xaml.cs and update the _connectionString variable with your MySQL username and password (e.g., Pwd=admin123;).
+
+Usage Examples
+Input	Response type
+My name is Alex	Bot remembers your name
+I'm interested in privacy	Bot saves favourite topic
+Tell me about password safety	Random password tip
+add task to enable 2FA	Switches to Task tab and pre-fills title
+start quiz	Begins the 10-question quiz
+show activity log	Displays recent bot actions
+YouTube Demo
+https://youtu.be/eeq4P-6_vj8
+
+Author
+Keamogetswe Manyapelo, ST10498901
