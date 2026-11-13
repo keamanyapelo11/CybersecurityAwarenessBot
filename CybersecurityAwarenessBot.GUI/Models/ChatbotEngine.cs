@@ -43,18 +43,36 @@ namespace CybersecurityAwarenessBot.GUI.Models
             Memory.InteractionCount++;
             string input = userInput.ToLower().Trim();
 
-            // 1. Detect sentiment first
+            // --- NLP SIMULATION COMMAND DETECTION ---
+            if (input.Contains("start quiz") || input.Contains("play game") || input.Contains("take a quiz"))
+            {
+                ActivityLog.Instance.AddLog("Started Cybersecurity Quiz");
+                return "CMD:START_QUIZ";
+            }
+            if (input.Contains("show activity log") || input.Contains("what have you done") || input.Contains("show log"))
+            {
+                return "CMD:SHOW_LOG";
+            }
+            if (input.Contains("add task") || input.Contains("set a reminder") || input.Contains("remind me to"))
+            {
+                string taskTitle = userInput.Replace("add task", "", StringComparison.OrdinalIgnoreCase)
+                                             .Replace("set a reminder to", "", StringComparison.OrdinalIgnoreCase)
+                                             .Replace("remind me to", "", StringComparison.OrdinalIgnoreCase)
+                                             .Trim();
+                if (string.IsNullOrWhiteSpace(taskTitle)) taskTitle = "New Cybersecurity Task";
+
+                ActivityLog.Instance.AddLog($"NLP recognized task intent: '{taskTitle}'");
+                return "CMD:ADD_TASK:" + taskTitle;
+            }
+
+            // 1. Detect sentiment
             string detectedSentiment = _sentiment.Detect(input);
             Memory.LastSentiment = detectedSentiment;
             string empathy = _sentiment.GetEmpathyPrefix(detectedSentiment, Memory);
 
-            // 2. Capture user's name if they introduce themselves
             TryCaptureName(userInput);
-
-            // 3. Detect favourite topic memory
             TryCaptureFavouriteTopic(input);
 
-            // 4. Handle general intents via delegates
             foreach (var handler in _handlers)
             {
                 if (MatchesIntent(input, handler.Key))
@@ -63,33 +81,28 @@ namespace CybersecurityAwarenessBot.GUI.Models
                 }
             }
 
-            // 5. Cybersecurity keyword recognition (randomised responses)
             string? keyword = FindKeyword(input);
             if (keyword != null)
             {
                 Memory.RememberTopic(keyword);
                 string? tip = _responses.GetRandomResponse(keyword);
-
-                // Personalise using memory if user has a favourite topic
                 string personal = "";
                 if (Memory.HasFavouriteTopic && Memory.FavouriteTopic == keyword)
                 {
                     personal = $"Since {_responses.TopicNames[keyword]} is your favourite topic, here's something extra: ";
                 }
-
                 return empathy + personal + tip + "\n\nWould you like another tip on this topic, or ask about something else?";
             }
 
-            // 6. Follow-up requests like "another tip" / "explain more"
             if (IsFollowUp(input) && !string.IsNullOrEmpty(Memory.LastTopic))
             {
                 string? tip = _responses.GetRandomResponse(Memory.LastTopic);
                 return empathy + $"Sure{NameSuffix()}, here's another tip on {_responses.TopicNames[Memory.LastTopic]}: {tip}";
             }
 
-            // 7. Default fallback — no crash on unknown input
-            return empathy + "I'm not sure I understand. Can you try rephrasing? You can ask me about passwords, scams, privacy, phishing, malware, or safe browsing.";
+            return empathy + "I'm not sure I understand. Can you try rephrasing? You can ask me about passwords, scams, privacy, phishing, malware, safe browsing, or type 'start quiz' or 'add task'.";
         }
+
 
         // ---------- Delegate handlers ----------
 
