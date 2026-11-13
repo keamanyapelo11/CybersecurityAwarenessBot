@@ -7,6 +7,7 @@ namespace CybersecurityAwarenessBot.GUI.Models
     /// Detects simple sentiment from user input so the chatbot can
     /// adjust its tone (worried, curious, frustrated, happy, neutral).
     /// </summary>
+    /// 
     public class SentimentDetector
     {
         private readonly Dictionary<string, string[]> _sentimentKeywords =
