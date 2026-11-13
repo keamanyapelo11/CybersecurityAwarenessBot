@@ -1,24 +1,30 @@
-# Cybersecurity Awareness Bot
+# Cybersecurity Awareness Bot - Part 3 POE
 
-A WPF chatbot that teaches users about cybersecurity through a friendly GUI,
-with keyword recognition, randomised tips, memory recall, and sentiment detection.
+A WPF chatbot that teaches users about cybersecurity through a friendly GUI, with keyword recognition, randomized tips, memory recall, sentiment detection, and advanced Part 3 features.
 
 ## Features
 
-- **GUI (WPF)** — styled interface with chat bubbles and colour palette
-- **Voice greeting** — plays `Assets/greeting.wav` at startup (Replay button available)
-- **Keyword recognition** — recognises password, scam, privacy, phishing, malware, browsing, 2FA
-- **Random responses** — multiple tips per topic, randomly selected
-- **Conversation flow** — handles "another tip", "tell me more", "explain more"
-- **Memory & recall** — remembers name and favourite topic; personalises replies
-- **Sentiment detection** — detects worried, frustrated, curious, happy; adds empathy
-- **Error handling** — default fallback for unknown inputs (no crashes)
+- **GUI (WPF)** — Styled interface with chat bubbles, tabbed navigation, and color palette
+- **Voice greeting** — Plays `Assets/greeting.wav` at startup (Replay button available)
+- **Keyword recognition** — Recognises password, scam, privacy, phishing, malware, browsing, 2FA
+- **Random responses** — Multiple tips per topic, randomly selected
+- **Conversation flow** — Handles "another tip", "tell me more", "explain more"
+- **Memory & recall** — Remembers name and favourite topic; personalises replies
+- **Sentiment detection** — Detects worried, frustrated, curious, happy; adds empathy
+- **Error handling** — Default fallback for unknown inputs (no crashes)
 - **OOP + Delegates** — `ChatbotEngine`, `ResponseManager`, `UserMemory`, `SentimentDetector`
 
+### Part 3 New Features
+- **Task Assistant (MySQL):** Users can add, view, complete, and delete cybersecurity tasks. All tasks are saved to a local MySQL database (`CyberBotDB`).
+- **Mini-Game (Quiz):** A 10-question cybersecurity quiz with immediate feedback, scoring, and NLP-based answer recognition (A, B, C, D).
+- **NLP Simulation:** The chatbot uses string manipulation to detect commands like "add task", "start quiz", and "show activity log", passing them to the GUI.
+- **Activity Log:** Keeps a timestamped record of the last 10 actions (tasks added, quiz started, etc.) viewable via the chat.
+
 ## Project Structure
+```text
 CybersecurityAwarenessBot/
 ├── CybersecurityAwarenessBot.slnx # solution
-├── CybersecurityAwarenessBot.GUI/ # Part 2 WPF app
+├── CybersecurityAwarenessBot.GUI/ # Parts 2 & 3 WPF app
 │ ├── App.xaml
 │ ├── MainWindow.xaml
 │ ├── MainWindow.xaml.cs
@@ -28,35 +34,8 @@ CybersecurityAwarenessBot/
 │ ├── ChatbotEngine.cs
 │ ├── UserMemory.cs
 │ ├── SentimentDetector.cs
-│ └── ResponseManager.cs
+│ ├── ResponseManager.cs
+│ ├── TaskItem.cs
+│ ├── ActivityLog.cs
+│ └── QuizManager.cs
 └── ConsoleApp1/ # Part 1 console (reference)
-
-
-## Setup
-
-1. Open `CybersecurityAwarenessBot.slnx` in Visual Studio 2022 (with **.NET desktop development** workload installed).
-2. Set `CybersecurityAwarenessBot.GUI` as the startup project.
-3. Build (Ctrl+Shift+B) and run (F5).
-4. Ensure `Assets/greeting.wav` exists and its properties are set to:
-   - **Build Action** = Content
-   - **Copy to Output Directory** = Copy if newer
-
-## Usage Examples
-
-| Input | Response type |
-|---|---|
-| `My name is Alex` | Bot remembers your name |
-| `I'm interested in privacy` | Bot saves favourite topic |
-| `Tell me about password safety` | Random password tip |
-| `Give me a phishing tip` | Random phishing tip |
-| `I'm worried about online scams` | Empathetic prefix + scam tip |
-| `Give me another tip` | More on same topic |
-| `asdfgh` | Graceful fallback (no crash) |
-
-## YouTube Demo
-
-https://youtu.be/eeq4P-6_vj8
-
-## Author
-
-Keamogetswe Manyapelo, ST10498901 
